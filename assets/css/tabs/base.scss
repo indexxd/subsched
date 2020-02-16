@@ -1,0 +1,36 @@
+.tab__radio {
+	display: none;   
+}
+.tab__border {
+    position: absolute;
+    top: 27px;
+    left: 0;
+    right: 0;
+    padding-top: 15px;
+}
+.tab__radio:checked ~ 
+.tab__label ~ 
+.tab__content {
+    z-index: 3;
+    display: block;
+}
+
+.tab__label {
+    padding: 14px;
+    bottom: 15px;
+    position: relative;
+    border-bottom: 1px solid #ccc;
+    white-space: nowrap;
+}
+.tab__content {
+	position: absolute;
+	top: 28px;
+	left: 0;
+    right: 0;
+    display:none;
+    padding-top: 15px;
+}
+.tab__radio:checked ~ 
+.tab__label {
+	z-index: 2;
+}

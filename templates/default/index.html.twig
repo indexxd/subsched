@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block css %}{{ encore_entry_link_tags('app') }}{% endblock %}
+{% block js %}{{ encore_entry_script_tags('app') }}{% endblock %}
+
+{% block title %}Ello{% endblock %}
+
+{% block body %}
+<div id="app">
+    <router-view></router-view>
+</div>
+{% endblock %}

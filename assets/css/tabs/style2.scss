@@ -1,0 +1,29 @@
+@import "base.scss";
+
+$bg-color: rgba(33,33,33, 0.8);
+$fg-color: #cecece;
+
+.tab__radio2:checked ~ 
+.tab__label2 {
+    background: none;
+    border: 1px solid $fg-color;
+    border-top: 1px solid $fg-color;
+    border-bottom: 1px solid rgba(0,0,0,0);
+    color: $fg-color;
+    z-index: 2;
+}
+.tab__label2 {
+    cursor: pointer;
+    border: 1px solid rgba(0,0,0,0);
+    border-bottom: 1px solid $fg-color;
+    padding: 10px 25px;
+    bottom: 11px;
+    color: $fg-color;
+}
+.tab__content2 {
+    background-color: none;
+    color: $fg-color;
+}
+.tab__border2 {
+    border-top: 1px solid $fg-color; 
+}

@@ -1,0 +1,115 @@
+:root {
+    
+}
+
+@import url('https://fonts.googleapis.com/css?family=Muli:300,400,400i,500,500i,600,700&display=swap');
+@import "./scrollbar-dark.scss";
+
+@mixin box-shadow($value: 5px, $color: black) {
+    -webkit-box-shadow: 0px 0px $value 0px $color;
+    -moz-box-shadow: 0px 0px $value 0px $color;
+    box-shadow: 0px 0px $value 0px $color;
+}
+
+
+.align {
+    display: flex;
+    align-items: center;
+}
+
+.justify {
+    display: flex;
+    justify-content: center;
+}
+
+.center {
+    display: flex;
+    place-content: center;
+}
+
+* {
+    font-family: 'Muli', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.input {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+
+    &:focus {
+        outline: none;
+        box-shadow: 0px 0px 3px 0px #0183ff;
+        border: 1px solid #0183ff;
+    }
+}
+
+.btn {
+    color: white;
+    padding: 8px 13px;
+    border: none;
+    background-color: #449de8;
+    font-size: 16px;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #008cff;
+        transition: 0.1s ease;
+    }
+    &:focus {
+        outline: none;
+    }
+
+    &--neutral {
+        background-color: #818c96;
+        &:hover {
+            background-color: #6c757d;
+        }
+    }
+    &--safe {
+        background-color: #0faf0f;
+        &:hover {
+            background-color: #0dca0d;
+        }
+    }
+    &--bad {
+        background-color: #d31a1a;
+        &:hover {
+            background-color: #f01c1c;
+        }
+    }
+}
+
+.input {
+    padding: 6px 30px;
+    padding-left: 10px;
+    font-size: 14px;
+    line-height: 1.6;
+    border-radius: 0px;
+    color: #555;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.0);
+
+    &--disabled {
+        background-color: #f8f8f8;
+        color: #a1a1a1;
+    }
+    
+    &--dark {
+        color: #e0e0e0;
+        background-color: #333;
+        border: 1px solid #e0e0e0;
+    }
+
+    &:focus {
+        outline: none;
+        border: 1px solid #209eb2;
+    }
+}

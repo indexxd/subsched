@@ -1,0 +1,19 @@
+@mixin scrollbar-dark($selector) {
+   #{$selector} {
+      ::-webkit-scrollbar {
+         width: 13px;
+      }
+      
+      ::-webkit-scrollbar-track {
+         background: #262829; 
+      }
+      
+      ::-webkit-scrollbar-thumb {
+         background: #414546; 
+      }
+      
+      ::-webkit-scrollbar-thumb:hover {
+         background: #555; 
+      }
+   }
+}    
