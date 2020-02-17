@@ -71,30 +71,36 @@ export default {
         return {
             daysNamed: ["NE", "PO", "ÚT", "ST", "ČT", "PÁ", "SO"],
             weeksNamed: ["Sudý", "Lichý"],
+            date: "",
             items: {
                 editAbsence: false,
                 addAbsence: false,
                 changeDate: false,
             },
-            day: "",
-            week: "",
-            today: "",
-            date: "",
+            // day: "",
+            // week: "",
+            // today: "",
         }
     }
     ,computed: {
         ...mapGetters(["getDate"]),
-    },
-    watch: {
-        getDate(value) {
-            const date = moment(value, "DD-MM-YYYY");
-    
-            this.today = date.format("DD. MM.");
-            this.week = this.weeksNamed[date.week() % 2 === 0 ? 0 : 1];
-            this.day = this.daysNamed[date.weekday()];
+        day() {
+            const date = moment(this.getDate, "DD-MM-YYYY");
+            return this.daysNamed[date.weekday()];
+
+        },
+        week() {
+            const date = moment(this.getDate, "DD-MM-YYYY");
+            return this.weeksNamed[date.week() % 2 === 0 ? 0 : 1];
+
+        },
+        today() {
+            const date = moment(this.getDate, "DD-MM-YYYY");
+            return date.format("DD. MM.");
+
         }
-    }
-    ,methods: {
+    },
+    methods: {
         ...mapActions(["setDate", "openModal"]),
         absenceAdded() {
             this.$store.dispatch("fetchAbsent");
@@ -147,7 +153,7 @@ export default {
             await api.post("/logout");
             this.$router.push("login");
         }
-    }
+    },
 }
 </script>
 
@@ -239,6 +245,7 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: center;
+        width: 55px;
     }
     &__item {
         height: 55px;
