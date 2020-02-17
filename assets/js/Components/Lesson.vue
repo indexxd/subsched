@@ -34,11 +34,16 @@ export default {
             }
         },
         getAbsent(array) {
+            let absentState = false;
+
             array.forEach(item => {
                 if (item.teacher.id === this.lesson.teacher.id) {
-                    this.absent = true;
+                    absentState = true;
                 }
-            })
+
+            });
+
+            this.absent = absentState;
         }
     }
     ,methods: {
