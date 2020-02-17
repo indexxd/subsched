@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/api/absence", name="absence")
@@ -19,6 +20,7 @@ class AbsenceController extends AbstractController
 {
     /**
      * @Route("", name="_show_all", methods={"GET"})
+     * IsGranted("ROLE_ADMIN")
      */
     public function index(AbsenceRepository $absenceRepository)
     {
@@ -29,6 +31,7 @@ class AbsenceController extends AbstractController
     
     /**
      * @Route("/{id}", name="_delete", methods={"DELETE"})
+     * IsGranted("ROLE_ADMIN")
      */
     public function delete(Absence $absence)
     {
@@ -42,6 +45,7 @@ class AbsenceController extends AbstractController
    
     /**
      * @Route("/{date}", name="_show", methods={"GET"})
+     * IsGranted("IS_AUTHENTICATED_ANONYMOUSLY")
      */
     public function show(string $date, AbsenceRepository $absenceRep)
     {
@@ -53,6 +57,7 @@ class AbsenceController extends AbstractController
     
     /**
      * @Route("", name="_create", methods={"POST"})
+     * IsGranted("ROLE_ADMIN")
      *
      * @JsonParams(name="from", type="date")
      * @JsonParams(name="to", type="date")
@@ -78,6 +83,7 @@ class AbsenceController extends AbstractController
 
     /**
      * @Route("/{id}", name="_update", methods={"PATCH"})
+     * IsGranted("ROLE_ADMIN")
      * 
      * @JsonParams(name="from", type="date")
      * @JsonParams(name="to", type="date")

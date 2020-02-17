@@ -59,7 +59,11 @@ class LoginAuthenticator extends AbstractGuardAuthenticator
 
     public function start(Request $request, AuthenticationException $authException = null)
     {
-        // todo
+        $data = array(
+            'message' => 'Authentication Required'
+        );
+
+        return new JsonResponse($data, 401);   
     }
 
     public function supportsRememberMe()
