@@ -1,9 +1,9 @@
 <template>
     <div class="side-panel">
         <div class="side-panel__info">
-            <div style="font-size: 26px">{{ day }}</div>
-            <div style="font-size: 18px">{{ week }}</div>
             <div>{{ today }}</div>
+            <div style="font-size: 18px">{{ week }}</div>
+            <div style="font-size: 24px">{{ day }}</div>
         </div>
         <div class="side-panel__items">
         <div class="side-panel__item" @click="previousDay()">
@@ -14,7 +14,7 @@
         </div>
         <div class="side-panel__item">
             <img class="side-panel__icon" @click="toggleItem('addAbsence')" title="Přidat absenci" src="/build/images/add-user.png">
-            <new-absence-popup v-if="items.addAbsence" @submit="toggleItem('addAbsence')"></new-absence-popup>
+            <new-absence-popup v-if="items.addAbsence" @submit="absenceAdded()"></new-absence-popup>
         </div>
         <div class="side-panel__item">
             <img class="side-panel__icon" @click="toggleItem('editAbsence')" title="Upravit absence" src="/build/images/user.png" alt="Přidat učitele">
@@ -69,7 +69,7 @@ export default {
     }
     ,data() {
         return {
-            daysNamed: ["Ne", "Po", "Út", "St", "Čt", "Pá", "So"],
+            daysNamed: ["NE", "PO", "ÚT", "ST", "ČT", "PÁ", "SO"],
             weeksNamed: ["Sudý", "Lichý"],
             items: {
                 editAbsence: false,
@@ -95,7 +95,11 @@ export default {
         }
     }
     ,methods: {
-        ...mapActions(["setDate", "openModal"])
+        ...mapActions(["setDate", "openModal"]),
+        absenceAdded() {
+            this.$store.dispatch("fetchAbsent");
+            this.toggleItem('addAbsence');
+        }
         ,bulkEdit() {
             this.openModal("bulkedit")
         }
@@ -159,9 +163,6 @@ export default {
     background: #333333;
     display: grid;
     grid-template-rows: 100px 1fr 100px;
-    // display: flex;
-    // flex-direction: column;
-    // justify-content: center;
     z-index: 10;
     box-shadow: 0px 0px 3px 0px grey;
 
@@ -228,6 +229,10 @@ export default {
 
     &__info {
         color: white;
+        > * {
+            margin-left: 3px;
+            margin-top: 1px;
+        }
     }
 
     &__items {

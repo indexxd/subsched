@@ -94,6 +94,7 @@ export default {
                 return;
             }
             
+            this.$store.dispatch("fetchAbsent");
             this.absences = this.absences.filter(item => item.id !== absence.id);
         },
     },

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -108,6 +109,11 @@ class Reschedule
      */
     private $teacher;
 
+    public function __construct()
+    {
+        $this->created = new DateTime();
+    }
+    
     public function getId(): ?int
     {
         return $this->id;
