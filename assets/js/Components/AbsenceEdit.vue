@@ -71,18 +71,23 @@ export default {
             this.absences = r;
         },
         format: date => moment(date).format("DD. MM. YYYY"),
-        update(absence) {
+        async update(absence) {
             const payload = {
                 from: moment(absence.from, "DD. MM. YYYY").format("DD-MM-YYYY"),
                 to: moment(absence.to, "DD. MM. YYYY").format("DD-MM-YYYY"),
                 teacher: absence.teacher.id,
             };
 
-            const r = api.patch("/absence/" + absence.id, payload);
+            const r = await api.patch("/absence/" + absence.id, payload);
 
             if (!r) {
                 alert("Chyba ryba");
+                return;
             }
+
+            this.$store.dispatch("fetchAbsent");
+            this.absences = this.absences.filter(item => item.id !== absence.id);
+
         },
         async remove(absence) {
             if (!confirm("Opravdu?")) return;

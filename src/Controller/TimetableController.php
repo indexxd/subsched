@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Annotation\JsonParams;
 use App\Entity\Lesson;
+use App\Entity\Room;
+use App\Entity\Teacher;
 use App\Repository\GradeRepository;
 use App\Repository\LessonRepository;
 use App\Repository\RescheduleRepository;
@@ -136,17 +138,20 @@ class TimetableController extends AbstractController
 
                         else if ($change->type === "MOVE") {
                             $lesson = $this->getDoctrine()->getRepository(Lesson::class)->find($change->lesson_id);
+                            $room = $this->getDoctrine()->getRepository(Room::class)->find($change->room_id);
                             
                             $tt[$grade][$hour - 1] 
                                 .= $break 
                                 . $lesson->getSubject()->getShort() . "\n" 
                                 . $lesson->getTeacher()->getShortname() . "," 
-                                . $lesson->getRoom()->getName()
+                                . $room->getName()
                             ;
                         }
 
                         else if ($change->type === "SUBSTITUTE") {
                             $lesson = $this->getDoctrine()->getRepository(Lesson::class)->find($change->lesson_id);
+                            $room = $this->getDoctrine()->getRepository(Room::class)->find($change->room_id);
+                            $teacher = $this->getDoctrine()->getRepository(Teacher::class)->find($change->teacher_id);
 
                             $group = $lesson->getGroup() !== "celá" ? $lesson->getGroup() : "";
                             
@@ -154,8 +159,8 @@ class TimetableController extends AbstractController
                                 .= $break
                                 . $group . " "
                                 . $lesson->getSubject()->getShort() . "\n"
-                                . $lesson->getTeacher()->getShortname() . ","
-                                . $lesson->getRoom()->getName()
+                                . $teacher->getShortname() . ","
+                                . $room->getName()
                             ;
                         }
 
