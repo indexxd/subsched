@@ -87,7 +87,7 @@ class RescheduleRepository extends ServiceEntityRepository
 
             $delete = "DELETE FROM reschedule 
             WHERE  id IN (SELECT *
-                            FROM   temp) ";
+                            FROM   temp); DROP TABLE temp";
             
             $sql = $temp . "; " . $delete;
             

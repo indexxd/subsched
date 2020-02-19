@@ -100,43 +100,39 @@ class RescheduleController extends JsonController
      */
     public function bulkEdit(Request $request, RescheduleRepository $rescheduleRepository, GradeRepository $gradeRepository)
     {
-        try {
-            $data = $request->attributes->get("data");
-    
-            $value = $data["value"];
-            $grades = $data["grades"];
-            $hours = $data["hours"];
-    
-            foreach ($grades as $grade) {
-                $grade = $gradeRepository->find($grade);
+        $data = $request->attributes->get("data");
 
-                foreach ($hours as $hour) {
-                    $rescheduleRepository->deletePreviousChanges(
-                        new Date($data["date"]), $grade, $hour
-                    );
+        $value = $data["value"];
+        $grades = $data["grades"];
+        $hours = $data["hours"];
 
-                    if ($value !== "") {
-                        $sub = new Reschedule();
-                        $sub->setDate($data["date"])
-                            ->setGrade($grade)
-                            ->setHour($hour)
-                            ->setType($value === "0" ? Reschedule::CANCEL : Reschedule::CUSTOM)
-                            ->setCustom($value !== "0" ? $value : null)
-                        ;
+        foreach ($grades as $grade) {
+            $grade = $gradeRepository->find($grade);
 
-                        $em = $this->getDoctrine()->getManager();
-                        $em->persist($sub);
-                        $em->flush();          
-                
-                    }
+            foreach ($hours as $hour) {
+                $rescheduleRepository->deletePreviousChanges(
+                    new Date($data["date"]), $grade, $hour
+                );
+
+                if ($value !== "") {
+                    $sub = new Reschedule();
+                    $sub->setDate($data["date"])
+                        ->setGrade($grade)
+                        ->setHour($hour)
+                        ->setType($value === "0" ? Reschedule::CANCEL : Reschedule::CUSTOM)
+                        ->setCustom($value !== "0" ? $value : null)
+                    ;
+
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($sub);
+                    $em->flush();          
+            
                 }
             }
-
-            return $this->json([], 201);
-        } 
-        catch (\Throwable $th) {
-            return $this->errorResponse(self::INVALID_INPUT);
         }
+
+        return $this->json([], 201);
+
     }
 
     /**
