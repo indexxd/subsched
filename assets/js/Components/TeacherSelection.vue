@@ -43,15 +43,15 @@ export default {
             
             return [
                 {
-                    name: "doupporučený",
+                    name: "Doporučení",
                     items: result.recommended.map(item => this.getTeachers[item.id].fullname),
                 },
                 {
-                    name: "dosputní",
+                    name: "Volní",
                     items: result.available.map(item => this.getTeachers[item.id].fullname),
                 },
                 {
-                    name: "ostatní",
+                    name: "Ostatní",
                     items: result.unavailable.map(item => this.getTeachers[item.id].fullname),
                 }
             ];

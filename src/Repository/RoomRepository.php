@@ -59,7 +59,7 @@ class RoomRepository extends ServiceEntityRepository
                 SELECT grade_id FROM reschedule
                 WHERE type = 'CANCEL' AND date = :date AND reschedule.hour = :hour AND lesson_id IS NULL
             )
-        ) as empty JOIN room on room_id = room.id WHERE room_id NOT in (
+        ) as `empty` JOIN room on room_id = room.id WHERE room_id NOT in (
             SELECT room_id FROM reschedule
             WHERE type in ('SUBSTITUTE', 'MOVE') AND date = :date AND reschedule.hour = :hour
         ) ORDER BY  name ASC

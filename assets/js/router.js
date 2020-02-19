@@ -14,11 +14,9 @@ const denyOnAuthState = async (path, next, state) => {
     state = await isAuthenticated() ? !state : state;
     
     if (!state) {
-        // deny
         next(path);
     } 
     else {
-        // allow
         next();
     }
 }
@@ -35,6 +33,7 @@ const routes = [
         beforeEnter: denyAnonymous
     },
     { name: "output",  path: "/output", component: output },
+    { name: "404", path: "*", redirect: "/" },
 ];
 
 export default new Router({

@@ -3,7 +3,7 @@
         <div class="side-panel__info">
             <div>{{ today }}</div>
             <div style="font-size: 18px">{{ week }}</div>
-            <div style="font-size: 24px">{{ day }}</div>
+            <div style="font-size: 18px">{{ day }}</div>
         </div>
         <div class="side-panel__items">
         <div class="side-panel__item" @click="previousDay()">
@@ -70,16 +70,13 @@ export default {
     ,data() {
         return {
             daysNamed: ["NE", "PO", "ÚT", "ST", "ČT", "PÁ", "SO"],
-            weeksNamed: ["Sudý", "Lichý"],
+            weeksNamed: ["", "Sudý", "Lichý"],
             date: "",
             items: {
                 editAbsence: false,
                 addAbsence: false,
                 changeDate: false,
             },
-            // day: "",
-            // week: "",
-            // today: "",
         }
     }
     ,computed: {
@@ -91,12 +88,19 @@ export default {
         },
         week() {
             const date = moment(this.getDate, "DD-MM-YYYY");
-            return this.weeksNamed[date.week() % 2 === 0 ? 0 : 1];
+
+            const w = date.week();
+
+            if (!Number.isInteger(w)) return "";
+            
+            return this.weeksNamed[w % 2 === 0 ? 1 : 2];
 
         },
         today() {
             const date = moment(this.getDate, "DD-MM-YYYY");
-            return date.format("DD. MM.");
+            const f = date.format("DD. MM.");
+
+            return f === "Invalid date" ? "" : f;
 
         }
     },
@@ -139,15 +143,16 @@ export default {
             let weekday = currentDay.weekday();
             let nextDay = currentDay.add(1, "d");
 
+
             if (weekday === 5) {
                 nextDay = currentDay.add(2, "d");
             }
-
+            
             this.redirectToDate(nextDay.format("DD-MM-YYYY"));
         }
         ,redirectToDate(date) {
             this.setDate(date);
-            this.$router.push({ path: '', query: { date: date } });
+            this.$router.replace({ path: '', query: { date: date } });
         },
         async logout() {
             await api.post("/logout");

@@ -45,7 +45,8 @@ class TeacherRepository extends ServiceEntityRepository
     
     public function findAvailable(Date $date, $hour, $subject) 
     {
-        $recommended = "SELECT teacher.id from (
+        $recommended = "SELECT id from (
+        SELECT teacher.id from (
             select id from (
                 select id from teacher
             ) as all_rooms where id not in (
@@ -75,10 +76,15 @@ class TeacherRepository extends ServiceEntityRepository
         ) and free.id = any (
             select teacher_id from teacher_subject as joined 
             where joined.subject_id = :subject_id
-        )
+        )  
+        ) as a left join (
+          SELECT teacher_id FROM absence WHERE `from` <= :date AND `to` >= :date
+        ) as b on a.id = b.teacher_id 
+        where teacher_id is null
         ";
 
-        $available = "SELECT teacher.id from (
+        $available = "SELECT id from (
+            SELECT teacher.id from (
             select id from (
                 select id from teacher
             ) as all_rooms where id not in (
@@ -109,7 +115,12 @@ class TeacherRepository extends ServiceEntityRepository
             select teacher_id from teacher_subject as joined 
             where joined.subject_id != :subject_id
         )
+        ) as a left join (
+          SELECT teacher_id FROM absence WHERE `from` <= :date AND `to` >= :date
+        ) as b on a.id = b.teacher_id 
+        where teacher_id is null
         ";
+      
 
         $unavailable = "SELECT teacher.id from teacher 
             where id not in (
@@ -135,7 +146,11 @@ class TeacherRepository extends ServiceEntityRepository
             union (
                 select teacher.id FROM reschedule join teacher on teacher_id = teacher.id
                 WHERE type in ('SUBSTITUTE', 'MOVE') and date = :date and reschedule.hour = :hour
-        )";
+            )
+            union (
+                SELECT teacher_id as id FROM absence WHERE `from` <= :date AND `to` >= :date
+            )
+        ";
 
         $map = "SELECT * FROM teacher";
 
